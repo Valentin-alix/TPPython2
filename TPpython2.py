@@ -51,5 +51,14 @@ with open(bat_file_path, newline='') as csvfile:
     else:
        print("wrong delimiter")  
        
+    #monument fiche à mettre dans la boucle ci dessus  
+fichier = open("tico", "wt")
+ecrivainCSV = csv.writer(fichier,delimiter=";")
+ecrivainCSV.writerow(["Nom","description","commune","localisation","latitude","longitude"])	# On écrit la ligne d'en-tête avec le titre des colonnes
+ecrivainCSV.writerow(["tico","reg","dpt_lettre"])
+
+fichier.close()
+      
+
        
 print(getcwd())
