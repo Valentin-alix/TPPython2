@@ -31,17 +31,25 @@ with open(bat_file_path, newline='') as csvfile:
  
  for row in dictreader:
     print(row["tico"], row["reg"], row["dpt_lettre"])
+    
+    if(row["tico"].__contains__(',') == False):
+       correctFileName = row["tico"]
+       correctFileName = correctFileName.replace('"', '')
+       correctFileName = correctFileName.replace('/', '')
+       lin_file_path = row["reg"] + "/" + row["dpt_lettre"] + "/" + correctFileName +".csv"
 
+       if(path.exists(row["reg"]) == True & path.exists(row["reg"] + "/" + row["dpt_lettre"]) == True):
+          if(path.exists(lin_file_path) == False):
+             with open(lin_file_path, 'w', newline='') as csvsubfile:
+                fieldnames = ['nom', 'description', 'date_construction', 'date_protection', 'histoire', 'commune', 'departement', 'region']
+                dictwriter = csv.DictWriter(csvsubfile, fieldnames)
+                dictwriter.writeheader()
+                dictwriter.writerow({'nom' : row["tico"], 'description' : row["desc"], 'date_construction' : row["sclx"], 'date_protection' : row["dpro"], 'histoire' : row["hist"], 'commune' : row["wcom"], 'departement' : row["dpt_lettre"], 'region' : row["reg"]})
+                print("added")
+          else:
+            print("file alrdy exists")
+    else:
+       print("wrong delimiter")  
+       
+       
 print(getcwd())
-
-
-text = dictreader
-pattern = 'roi?\w' # find 'an' either with or without a following word character
-
-for match in re.finditer(pattern, text):
-    sStart = match.start()
-    sEnd = match.end()
-
-    sGroup = match.group()
-
-    print('Match "{}" found at: [{},{}]'.format(sGroup, sStart,sEnd))
